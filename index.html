@@ -457,7 +457,7 @@
         document.getElementById("all").appendChild(col1);
         document.getElementById("all").appendChild(col2);
         col1.appendChild(mapDiv)
-        var Filters = {"KECAMATAN": "str","DESA_KEL": "str","Banjir": "str","Longsor": "str"};
+        var Filters = {"KECAMATAN": "str","DESA_KEL": "str","BANJIR": "str","LONGSOR": "str"};
         function filterFunc() {
           map.eachLayer(function(lyr){
           if ("options" in lyr && "dataVar" in lyr["options"]){
@@ -818,68 +818,70 @@
             div_DESA_KEL.appendChild(reset_DESA_KEL);
             document.getElementById("menu").appendChild(
                 document.createElement("div"));
-            var div_Banjir = document.createElement('div');
-            div_Banjir.id = "div_Banjir";
-            div_Banjir.className= "filterselect";
-            document.getElementById("menu").appendChild(div_Banjir);
-            sel_Banjir = document.createElement('select');
-            sel_Banjir.multiple = true;
-            sel_Banjir.size = 3;
-            sel_Banjir.id = "sel_Banjir";
-            var Banjir_options_str = "<option value='' unselected></option>";
-            sel_Banjir.onchange = function(){filterFunc()};
-            Banjir_options_str  += '<option value="Tingkat Bahaya Rendah">Tingkat Bahaya Rendah</option>';
-            Banjir_options_str  += '<option value="Tingkat Bahaya Sedang">Tingkat Bahaya Sedang</option>';
-            Banjir_options_str  += '<option value="Tingkat Bahaya Tinggi">Tingkat Bahaya Tinggi</option>';
-            sel_Banjir.innerHTML = Banjir_options_str;
-            div_Banjir.appendChild(sel_Banjir);
-            var lab_Banjir = document.createElement('div');
-            lab_Banjir.innerHTML = 'Banjir';
-            lab_Banjir.className = 'filterlabel';
-            div_Banjir.appendChild(lab_Banjir);
-            var reset_Banjir = document.createElement('div');
-            reset_Banjir.innerHTML = 'clear filter';
-            reset_Banjir.className = 'filterlabel';
-            reset_Banjir.onclick = function() {
-                var options = document.getElementById("sel_Banjir").options;
+            var div_BANJIR = document.createElement('div');
+            div_BANJIR.id = "div_BANJIR";
+            div_BANJIR.className= "filterselect";
+            document.getElementById("menu").appendChild(div_BANJIR);
+            sel_BANJIR = document.createElement('select');
+            sel_BANJIR.multiple = true;
+            sel_BANJIR.size = 4;
+            sel_BANJIR.id = "sel_BANJIR";
+            var BANJIR_options_str = "<option value='' unselected></option>";
+            sel_BANJIR.onchange = function(){filterFunc()};
+            BANJIR_options_str  += '<option value="Tingkat Bahaya 0">Tingkat Bahaya 0</option>';
+            BANJIR_options_str  += '<option value="Tingkat Bahaya Rendah">Tingkat Bahaya Rendah</option>';
+            BANJIR_options_str  += '<option value="Tingkat Bahaya Sedang">Tingkat Bahaya Sedang</option>';
+            BANJIR_options_str  += '<option value="Tingkat Bahaya Tinggi">Tingkat Bahaya Tinggi</option>';
+            sel_BANJIR.innerHTML = BANJIR_options_str;
+            div_BANJIR.appendChild(sel_BANJIR);
+            var lab_BANJIR = document.createElement('div');
+            lab_BANJIR.innerHTML = 'BANJIR';
+            lab_BANJIR.className = 'filterlabel';
+            div_BANJIR.appendChild(lab_BANJIR);
+            var reset_BANJIR = document.createElement('div');
+            reset_BANJIR.innerHTML = 'clear filter';
+            reset_BANJIR.className = 'filterlabel';
+            reset_BANJIR.onclick = function() {
+                var options = document.getElementById("sel_BANJIR").options;
                 for (var i=0; i < options.length; i++) {
                     options[i].selected = false;
                 }
                 filterFunc();
             };
-            div_Banjir.appendChild(reset_Banjir);
+            div_BANJIR.appendChild(reset_BANJIR);
             document.getElementById("menu").appendChild(
                 document.createElement("div"));
-            var div_Longsor = document.createElement('div');
-            div_Longsor.id = "div_Longsor";
-            div_Longsor.className= "filterselect";
-            document.getElementById("menu").appendChild(div_Longsor);
-            sel_Longsor = document.createElement('select');
-            sel_Longsor.multiple = true;
-            sel_Longsor.size = 3;
-            sel_Longsor.id = "sel_Longsor";
-            var Longsor_options_str = "<option value='' unselected></option>";
-            sel_Longsor.onchange = function(){filterFunc()};
-            Longsor_options_str  += '<option value="Tingkat Bahaya Rendah">Tingkat Bahaya Rendah</option>';
-            Longsor_options_str  += '<option value="Tingkat Bahaya Sedang">Tingkat Bahaya Sedang</option>';
-            Longsor_options_str  += '<option value="Tingkat Bahaya Tinggi">Tingkat Bahaya Tinggi</option>';
-            sel_Longsor.innerHTML = Longsor_options_str;
-            div_Longsor.appendChild(sel_Longsor);
-            var lab_Longsor = document.createElement('div');
-            lab_Longsor.innerHTML = 'Longsor';
-            lab_Longsor.className = 'filterlabel';
-            div_Longsor.appendChild(lab_Longsor);
-            var reset_Longsor = document.createElement('div');
-            reset_Longsor.innerHTML = 'clear filter';
-            reset_Longsor.className = 'filterlabel';
-            reset_Longsor.onclick = function() {
-                var options = document.getElementById("sel_Longsor").options;
+            var div_LONGSOR = document.createElement('div');
+            div_LONGSOR.id = "div_LONGSOR";
+            div_LONGSOR.className= "filterselect";
+            document.getElementById("menu").appendChild(div_LONGSOR);
+            sel_LONGSOR = document.createElement('select');
+            sel_LONGSOR.multiple = true;
+            sel_LONGSOR.size = 4;
+            sel_LONGSOR.id = "sel_LONGSOR";
+            var LONGSOR_options_str = "<option value='' unselected></option>";
+            sel_LONGSOR.onchange = function(){filterFunc()};
+            LONGSOR_options_str  += '<option value="Tingkat Bahaya 0">Tingkat Bahaya 0</option>';
+            LONGSOR_options_str  += '<option value="Tingkat Bahaya Rendah">Tingkat Bahaya Rendah</option>';
+            LONGSOR_options_str  += '<option value="Tingkat Bahaya Sedang">Tingkat Bahaya Sedang</option>';
+            LONGSOR_options_str  += '<option value="Tingkat Bahaya Tinggi">Tingkat Bahaya Tinggi</option>';
+            sel_LONGSOR.innerHTML = LONGSOR_options_str;
+            div_LONGSOR.appendChild(sel_LONGSOR);
+            var lab_LONGSOR = document.createElement('div');
+            lab_LONGSOR.innerHTML = 'LONGSOR';
+            lab_LONGSOR.className = 'filterlabel';
+            div_LONGSOR.appendChild(lab_LONGSOR);
+            var reset_LONGSOR = document.createElement('div');
+            reset_LONGSOR.innerHTML = 'clear filter';
+            reset_LONGSOR.className = 'filterlabel';
+            reset_LONGSOR.onclick = function() {
+                var options = document.getElementById("sel_LONGSOR").options;
                 for (var i=0; i < options.length; i++) {
                     options[i].selected = false;
                 }
                 filterFunc();
             };
-            div_Longsor.appendChild(reset_Longsor);
+            div_LONGSOR.appendChild(reset_LONGSOR);
         </script>
     </body>
 </html>
