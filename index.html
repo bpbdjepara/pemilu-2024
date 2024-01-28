@@ -41,7 +41,7 @@
         <script src="js/tailDT.js"></script>
 <script src="js/nouislider.min.js"></script>
 <script src="js/wNumb.js"></script>
-        <script src="data/BatasKabupatenJepara_1.js"></script>
+        <script src="data/BatasKabJepara_1.js"></script>
         <script src="data/BencanaLongsor_2.js"></script>
         <script src="data/BencanaBanjir_3.js"></script>
         <script src="data/TPS_5.js"></script>
@@ -62,7 +62,7 @@
             }
         }
         var map = L.map('map', {
-            zoomControl:true, maxZoom:28, minZoom:1
+            zoomControl:true, maxZoom:19, minZoom:9
         }).fitBounds([[-6.622024195509157,110.6416510113868],[-6.520141037468998,110.84447730518669]]);
         var hash = new L.Hash(map);
         map.attributionControl.setPrefix('<a href="https://github.com/tomchadwin/qgis2web" target="_blank">qgis2web</a> &middot; <a href="https://leafletjs.com" title="A JS library for interactive maps">Leaflet</a> &middot; <a href="https://qgis.org">QGIS</a>');
@@ -102,14 +102,14 @@
             pane: 'pane_GoogleTerrain_0',
             opacity: 1.0,
             attribution: '<a href="https://www.google.at/permissions/geoguidelines/attr-guide.html">Map data ©2015 Google</a>',
-            minZoom: 1,
-            maxZoom: 28,
+            minZoom: 9,
+            maxZoom: 19,
             minNativeZoom: 0,
             maxNativeZoom: 20
         });
         layer_GoogleTerrain_0;
         map.addLayer(layer_GoogleTerrain_0);
-        function pop_BatasKabupatenJepara_1(feature, layer) {
+        function pop_BatasKabJepara_1(feature, layer) {
             layer.on({
                 mouseout: function(e) {
                     for (i in e.target._eventParents) {
@@ -120,9 +120,9 @@
             });
         }
 
-        function style_BatasKabupatenJepara_1_0() {
+        function style_BatasKabJepara_1_0() {
             return {
-                pane: 'pane_BatasKabupatenJepara_1',
+                pane: 'pane_BatasKabJepara_1',
                 opacity: 1,
                 color: 'rgba(0,0,0,1.0)',
                 dashArray: '',
@@ -135,20 +135,20 @@
                 interactive: false,
             }
         }
-        map.createPane('pane_BatasKabupatenJepara_1');
-        map.getPane('pane_BatasKabupatenJepara_1').style.zIndex = 401;
-        map.getPane('pane_BatasKabupatenJepara_1').style['mix-blend-mode'] = 'normal';
-        var layer_BatasKabupatenJepara_1 = new L.geoJson(json_BatasKabupatenJepara_1, {
+        map.createPane('pane_BatasKabJepara_1');
+        map.getPane('pane_BatasKabJepara_1').style.zIndex = 401;
+        map.getPane('pane_BatasKabJepara_1').style['mix-blend-mode'] = 'normal';
+        var layer_BatasKabJepara_1 = new L.geoJson(json_BatasKabJepara_1, {
             attribution: '',
             interactive: false,
-            dataVar: 'json_BatasKabupatenJepara_1',
-            layerName: 'layer_BatasKabupatenJepara_1',
-            pane: 'pane_BatasKabupatenJepara_1',
-            onEachFeature: pop_BatasKabupatenJepara_1,
-            style: style_BatasKabupatenJepara_1_0,
+            dataVar: 'json_BatasKabJepara_1',
+            layerName: 'layer_BatasKabJepara_1',
+            pane: 'pane_BatasKabJepara_1',
+            onEachFeature: pop_BatasKabJepara_1,
+            style: style_BatasKabJepara_1_0,
         });
-        bounds_group.addLayer(layer_BatasKabupatenJepara_1);
-        map.addLayer(layer_BatasKabupatenJepara_1);
+        bounds_group.addLayer(layer_BatasKabJepara_1);
+        map.addLayer(layer_BatasKabJepara_1);
         function pop_BencanaLongsor_2(feature, layer) {
             layer.on({
                 mouseout: function(e) {
@@ -317,8 +317,8 @@
             pane: 'pane_Jalan_4',
             opacity: 1.0,
             attribution: '<a href="https://www.google.at/permissions/geoguidelines/attr-guide.html">Map data ©2015 Google</a>',
-            minZoom: 1,
-            maxZoom: 28,
+            minZoom: 9,
+            maxZoom: 19,
             minNativeZoom: 0,
             maxNativeZoom: 20
         });
@@ -360,16 +360,16 @@
         function style_TPS_5_0() {
             return {
                 pane: 'pane_TPS_5',
-                radius: 4.0,
+                radius: 6.0,
                 opacity: 1,
-                color: 'rgba(0,0,0,1.0)',
+                color: 'rgba(128,17,25,1.0)',
                 dashArray: '',
                 lineCap: 'butt',
                 lineJoin: 'miter',
-                weight: 1.0,
+                weight: 2.0,
                 fill: true,
                 fillOpacity: 1,
-                fillColor: 'rgba(251,154,153,1.0)',
+                fillColor: 'rgba(255,170,0,1.0)',
                 interactive: true,
             }
         }
@@ -429,7 +429,7 @@
         document.getElementsByClassName('leaflet-control-geocoder-icon')[0]
         .title += 'Search for a place';
         var baseMaps = {};
-        L.control.layers(baseMaps,{'<img src="legend/TPS_5.png" /> TPS': layer_TPS_5,"Jalan": layer_Jalan_4,'Bencana Banjir<br /><table><tr><td style="text-align: center;"><img src="legend/BencanaBanjir_3_TingkatBahayaTinggi0.png" /></td><td>Tingkat Bahaya Tinggi</td></tr><tr><td style="text-align: center;"><img src="legend/BencanaBanjir_3_TingkatBahayaSedang1.png" /></td><td>Tingkat Bahaya Sedang</td></tr><tr><td style="text-align: center;"><img src="legend/BencanaBanjir_3_TingkatBahayaRendah2.png" /></td><td>Tingkat Bahaya Rendah</td></tr></table>': layer_BencanaBanjir_3,'Bencana Longsor<br /><table><tr><td style="text-align: center;"><img src="legend/BencanaLongsor_2_TingkatBahayaTinggi0.png" /></td><td>Tingkat Bahaya Tinggi</td></tr><tr><td style="text-align: center;"><img src="legend/BencanaLongsor_2_TingkatBahayaSedang1.png" /></td><td>Tingkat Bahaya Sedang</td></tr><tr><td style="text-align: center;"><img src="legend/BencanaLongsor_2_TingkatBahayaRendah2.png" /></td><td>Tingkat Bahaya Rendah</td></tr></table>': layer_BencanaLongsor_2,'<img src="legend/BatasKabupatenJepara_1.png" /> Batas Kabupaten Jepara': layer_BatasKabupatenJepara_1,"Google Terrain": layer_GoogleTerrain_0,},{collapsed:false}).addTo(map);
+        L.control.layers(baseMaps,{'<img src="legend/TPS_5.png" /> TPS': layer_TPS_5,"Jalan": layer_Jalan_4,'Bencana Banjir<br /><table><tr><td style="text-align: center;"><img src="legend/BencanaBanjir_3_TingkatBahayaTinggi0.png" /></td><td>Tingkat Bahaya Tinggi</td></tr><tr><td style="text-align: center;"><img src="legend/BencanaBanjir_3_TingkatBahayaSedang1.png" /></td><td>Tingkat Bahaya Sedang</td></tr><tr><td style="text-align: center;"><img src="legend/BencanaBanjir_3_TingkatBahayaRendah2.png" /></td><td>Tingkat Bahaya Rendah</td></tr></table>': layer_BencanaBanjir_3,'Bencana Longsor<br /><table><tr><td style="text-align: center;"><img src="legend/BencanaLongsor_2_TingkatBahayaTinggi0.png" /></td><td>Tingkat Bahaya Tinggi</td></tr><tr><td style="text-align: center;"><img src="legend/BencanaLongsor_2_TingkatBahayaSedang1.png" /></td><td>Tingkat Bahaya Sedang</td></tr><tr><td style="text-align: center;"><img src="legend/BencanaLongsor_2_TingkatBahayaRendah2.png" /></td><td>Tingkat Bahaya Rendah</td></tr></table>': layer_BencanaLongsor_2,'<img src="legend/BatasKabJepara_1.png" /> Batas Kab. Jepara': layer_BatasKabJepara_1,"Google Terrain": layer_GoogleTerrain_0,},{collapsed:false}).addTo(map);
         setBounds();
         map.addControl(new L.Control.Search({
             layer: layer_TPS_5,
@@ -457,7 +457,7 @@
         document.getElementById("all").appendChild(col1);
         document.getElementById("all").appendChild(col2);
         col1.appendChild(mapDiv)
-        var Filters = {"KECAMATAN": "str","DESA_KEL": "str","BANJIR": "str","LONGSOR": "str"};
+        var Filters = {"KECAMATAN": "str","DESA_KEL": "str","Banjir": "str","Longsor": "str"};
         function filterFunc() {
           map.eachLayer(function(lyr){
           if ("options" in lyr && "dataVar" in lyr["options"]){
@@ -818,70 +818,68 @@
             div_DESA_KEL.appendChild(reset_DESA_KEL);
             document.getElementById("menu").appendChild(
                 document.createElement("div"));
-            var div_BANJIR = document.createElement('div');
-            div_BANJIR.id = "div_BANJIR";
-            div_BANJIR.className= "filterselect";
-            document.getElementById("menu").appendChild(div_BANJIR);
-            sel_BANJIR = document.createElement('select');
-            sel_BANJIR.multiple = true;
-            sel_BANJIR.size = 4;
-            sel_BANJIR.id = "sel_BANJIR";
-            var BANJIR_options_str = "<option value='' unselected></option>";
-            sel_BANJIR.onchange = function(){filterFunc()};
-            BANJIR_options_str  += '<option value="Tingkat Bahaya 0">Tingkat Bahaya 0</option>';
-            BANJIR_options_str  += '<option value="Tingkat Bahaya Rendah">Tingkat Bahaya Rendah</option>';
-            BANJIR_options_str  += '<option value="Tingkat Bahaya Sedang">Tingkat Bahaya Sedang</option>';
-            BANJIR_options_str  += '<option value="Tingkat Bahaya Tinggi">Tingkat Bahaya Tinggi</option>';
-            sel_BANJIR.innerHTML = BANJIR_options_str;
-            div_BANJIR.appendChild(sel_BANJIR);
-            var lab_BANJIR = document.createElement('div');
-            lab_BANJIR.innerHTML = 'BANJIR';
-            lab_BANJIR.className = 'filterlabel';
-            div_BANJIR.appendChild(lab_BANJIR);
-            var reset_BANJIR = document.createElement('div');
-            reset_BANJIR.innerHTML = 'clear filter';
-            reset_BANJIR.className = 'filterlabel';
-            reset_BANJIR.onclick = function() {
-                var options = document.getElementById("sel_BANJIR").options;
+            var div_Banjir = document.createElement('div');
+            div_Banjir.id = "div_Banjir";
+            div_Banjir.className= "filterselect";
+            document.getElementById("menu").appendChild(div_Banjir);
+            sel_Banjir = document.createElement('select');
+            sel_Banjir.multiple = true;
+            sel_Banjir.size = 3;
+            sel_Banjir.id = "sel_Banjir";
+            var Banjir_options_str = "<option value='' unselected></option>";
+            sel_Banjir.onchange = function(){filterFunc()};
+            Banjir_options_str  += '<option value="Tingkat Bahaya Rendah">Tingkat Bahaya Rendah</option>';
+            Banjir_options_str  += '<option value="Tingkat Bahaya Sedang">Tingkat Bahaya Sedang</option>';
+            Banjir_options_str  += '<option value="Tingkat Bahaya Tinggi">Tingkat Bahaya Tinggi</option>';
+            sel_Banjir.innerHTML = Banjir_options_str;
+            div_Banjir.appendChild(sel_Banjir);
+            var lab_Banjir = document.createElement('div');
+            lab_Banjir.innerHTML = 'Banjir';
+            lab_Banjir.className = 'filterlabel';
+            div_Banjir.appendChild(lab_Banjir);
+            var reset_Banjir = document.createElement('div');
+            reset_Banjir.innerHTML = 'clear filter';
+            reset_Banjir.className = 'filterlabel';
+            reset_Banjir.onclick = function() {
+                var options = document.getElementById("sel_Banjir").options;
                 for (var i=0; i < options.length; i++) {
                     options[i].selected = false;
                 }
                 filterFunc();
             };
-            div_BANJIR.appendChild(reset_BANJIR);
+            div_Banjir.appendChild(reset_Banjir);
             document.getElementById("menu").appendChild(
                 document.createElement("div"));
-            var div_LONGSOR = document.createElement('div');
-            div_LONGSOR.id = "div_LONGSOR";
-            div_LONGSOR.className= "filterselect";
-            document.getElementById("menu").appendChild(div_LONGSOR);
-            sel_LONGSOR = document.createElement('select');
-            sel_LONGSOR.multiple = true;
-            sel_LONGSOR.size = 4;
-            sel_LONGSOR.id = "sel_LONGSOR";
-            var LONGSOR_options_str = "<option value='' unselected></option>";
-            sel_LONGSOR.onchange = function(){filterFunc()};
-            LONGSOR_options_str  += '<option value="Tingkat Bahaya 0">Tingkat Bahaya 0</option>';
-            LONGSOR_options_str  += '<option value="Tingkat Bahaya Rendah">Tingkat Bahaya Rendah</option>';
-            LONGSOR_options_str  += '<option value="Tingkat Bahaya Sedang">Tingkat Bahaya Sedang</option>';
-            LONGSOR_options_str  += '<option value="Tingkat Bahaya Tinggi">Tingkat Bahaya Tinggi</option>';
-            sel_LONGSOR.innerHTML = LONGSOR_options_str;
-            div_LONGSOR.appendChild(sel_LONGSOR);
-            var lab_LONGSOR = document.createElement('div');
-            lab_LONGSOR.innerHTML = 'LONGSOR';
-            lab_LONGSOR.className = 'filterlabel';
-            div_LONGSOR.appendChild(lab_LONGSOR);
-            var reset_LONGSOR = document.createElement('div');
-            reset_LONGSOR.innerHTML = 'clear filter';
-            reset_LONGSOR.className = 'filterlabel';
-            reset_LONGSOR.onclick = function() {
-                var options = document.getElementById("sel_LONGSOR").options;
+            var div_Longsor = document.createElement('div');
+            div_Longsor.id = "div_Longsor";
+            div_Longsor.className= "filterselect";
+            document.getElementById("menu").appendChild(div_Longsor);
+            sel_Longsor = document.createElement('select');
+            sel_Longsor.multiple = true;
+            sel_Longsor.size = 3;
+            sel_Longsor.id = "sel_Longsor";
+            var Longsor_options_str = "<option value='' unselected></option>";
+            sel_Longsor.onchange = function(){filterFunc()};
+            Longsor_options_str  += '<option value="Tingkat Bahaya Rendah">Tingkat Bahaya Rendah</option>';
+            Longsor_options_str  += '<option value="Tingkat Bahaya Sedang">Tingkat Bahaya Sedang</option>';
+            Longsor_options_str  += '<option value="Tingkat Bahaya Tinggi">Tingkat Bahaya Tinggi</option>';
+            sel_Longsor.innerHTML = Longsor_options_str;
+            div_Longsor.appendChild(sel_Longsor);
+            var lab_Longsor = document.createElement('div');
+            lab_Longsor.innerHTML = 'Longsor';
+            lab_Longsor.className = 'filterlabel';
+            div_Longsor.appendChild(lab_Longsor);
+            var reset_Longsor = document.createElement('div');
+            reset_Longsor.innerHTML = 'clear filter';
+            reset_Longsor.className = 'filterlabel';
+            reset_Longsor.onclick = function() {
+                var options = document.getElementById("sel_Longsor").options;
                 for (var i=0; i < options.length; i++) {
                     options[i].selected = false;
                 }
                 filterFunc();
             };
-            div_LONGSOR.appendChild(reset_LONGSOR);
+            div_Longsor.appendChild(reset_Longsor);
         </script>
     </body>
 </html>
