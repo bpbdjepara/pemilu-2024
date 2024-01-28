@@ -1,0 +1,885 @@
+<!doctype html>
+<html lang="en">
+    <head>
+        <meta charset="utf-8">
+        <meta http-equiv="X-UA-Compatible" content="IE=edge">
+        <meta name="viewport" content="initial-scale=1,user-scalable=no,maximum-scale=1,width=device-width">
+        <meta name="mobile-web-app-capable" content="yes">
+        <meta name="apple-mobile-web-app-capable" content="yes">
+        <link rel="stylesheet" href="css/leaflet.css"><link rel="stylesheet" href="css/L.Control.Locate.min.css">
+        <link rel="stylesheet" href="css/qgis2web.css"><link rel="stylesheet" href="css/fontawesome-all.min.css">
+        <link rel="stylesheet" href="css/leaflet-search.css">
+        <link rel="stylesheet" href="css/filter.css">
+<link rel="stylesheet" href="css/nouislider.min.css">
+        <link rel="stylesheet" href="css/leaflet-control-geocoder.Geocoder.css">
+        <link rel="stylesheet" href="css/leaflet-measure.css">
+        <style>
+        html, body, #map {
+            width: 100%;
+            height: 100%;
+            padding: 0;
+            margin: 0;
+        }
+        </style>
+        <title>Peta Bahaya Bencana pada TPS Pemilu 2024 di Jepara</title>
+    </head>
+    <body>
+        <div id="map">
+        </div>
+        <script src="js/qgis2web_expressions.js"></script>
+        <script src="js/leaflet.js"></script><script src="js/L.Control.Locate.min.js"></script>
+        <script src="js/leaflet.rotatedMarker.js"></script>
+        <script src="js/leaflet.pattern.js"></script>
+        <script src="js/leaflet-hash.js"></script>
+        <script src="js/Autolinker.min.js"></script>
+        <script src="js/rbush.min.js"></script>
+        <script src="js/labelgun.min.js"></script>
+        <script src="js/labels.js"></script>
+        <script src="js/leaflet-control-geocoder.Geocoder.js"></script>
+        <script src="js/leaflet-measure.js"></script>
+        <script src="js/leaflet-search.js"></script>
+        <script src="js/tailDT.js"></script>
+<script src="js/nouislider.min.js"></script>
+<script src="js/wNumb.js"></script>
+        <script src="data/BatasKabJepara_1.js"></script>
+        <script src="data/BencanaLongsor_2.js"></script>
+        <script src="data/BencanaBanjir_3.js"></script>
+        <script src="data/TPS_5.js"></script>
+        <script>
+        var highlightLayer;
+        function highlightFeature(e) {
+            highlightLayer = e.target;
+
+            if (e.target.feature.geometry.type === 'LineString') {
+              highlightLayer.setStyle({
+                color: '#ffff00',
+              });
+            } else {
+              highlightLayer.setStyle({
+                fillColor: '#ffff00',
+                fillOpacity: 1
+              });
+            }
+        }
+        var map = L.map('map', {
+            zoomControl:true, maxZoom:19, minZoom:9
+        }).fitBounds([[-6.622024195509157,110.6416510113868],[-6.520141037468998,110.84447730518669]]);
+        var hash = new L.Hash(map);
+        map.attributionControl.setPrefix('<a href="https://github.com/tomchadwin/qgis2web" target="_blank">qgis2web</a> &middot; <a href="https://leafletjs.com" title="A JS library for interactive maps">Leaflet</a> &middot; <a href="https://qgis.org">QGIS</a>');
+        var autolinker = new Autolinker({truncate: {length: 30, location: 'smart'}});
+        function removeEmptyRowsFromPopupContent(content, feature) {
+         var tempDiv = document.createElement('div');
+         tempDiv.innerHTML = content;
+         var rows = tempDiv.querySelectorAll('tr');
+         for (var i = 0; i < rows.length; i++) {
+             var td = rows[i].querySelector('td.visible-with-data');
+             var key = td ? td.id : '';
+             if (td && td.classList.contains('visible-with-data') && feature.properties[key] == null) {
+                 rows[i].parentNode.removeChild(rows[i]);
+             }
+         }
+         return tempDiv.innerHTML;
+        }
+        L.control.locate({locateOptions: {maxZoom: 19}}).addTo(map);
+        var measureControl = new L.Control.Measure({
+            position: 'topleft',
+            primaryLengthUnit: 'meters',
+            secondaryLengthUnit: 'kilometers',
+            primaryAreaUnit: 'sqmeters',
+            secondaryAreaUnit: 'hectares'
+        });
+        measureControl.addTo(map);
+        document.getElementsByClassName('leaflet-control-measure-toggle')[0]
+        .innerHTML = '';
+        document.getElementsByClassName('leaflet-control-measure-toggle')[0]
+        .className += ' fas fa-ruler';
+        var bounds_group = new L.featureGroup([]);
+        function setBounds() {
+        }
+        map.createPane('pane_GoogleTerrain_0');
+        map.getPane('pane_GoogleTerrain_0').style.zIndex = 400;
+        var layer_GoogleTerrain_0 = L.tileLayer('https://mt1.google.com/vt/lyrs=p&x={x}&y={y}&z={z}', {
+            pane: 'pane_GoogleTerrain_0',
+            opacity: 1.0,
+            attribution: '<a href="https://www.google.at/permissions/geoguidelines/attr-guide.html">Map data ©2015 Google</a>',
+            minZoom: 9,
+            maxZoom: 19,
+            minNativeZoom: 0,
+            maxNativeZoom: 20
+        });
+        layer_GoogleTerrain_0;
+        map.addLayer(layer_GoogleTerrain_0);
+        function pop_BatasKabJepara_1(feature, layer) {
+            layer.on({
+                mouseout: function(e) {
+                    for (i in e.target._eventParents) {
+                        e.target._eventParents[i].resetStyle(e.target);
+                    }
+                },
+                mouseover: highlightFeature,
+            });
+        }
+
+        function style_BatasKabJepara_1_0() {
+            return {
+                pane: 'pane_BatasKabJepara_1',
+                opacity: 1,
+                color: 'rgba(0,0,0,1.0)',
+                dashArray: '',
+                lineCap: 'butt',
+                lineJoin: 'miter',
+                weight: 1.0, 
+                fill: true,
+                fillOpacity: 1,
+                fillColor: 'rgba(164,113,88,0.0)',
+                interactive: false,
+            }
+        }
+        map.createPane('pane_BatasKabJepara_1');
+        map.getPane('pane_BatasKabJepara_1').style.zIndex = 401;
+        map.getPane('pane_BatasKabJepara_1').style['mix-blend-mode'] = 'normal';
+        var layer_BatasKabJepara_1 = new L.geoJson(json_BatasKabJepara_1, {
+            attribution: '',
+            interactive: false,
+            dataVar: 'json_BatasKabJepara_1',
+            layerName: 'layer_BatasKabJepara_1',
+            pane: 'pane_BatasKabJepara_1',
+            onEachFeature: pop_BatasKabJepara_1,
+            style: style_BatasKabJepara_1_0,
+        });
+        bounds_group.addLayer(layer_BatasKabJepara_1);
+        map.addLayer(layer_BatasKabJepara_1);
+        function pop_BencanaLongsor_2(feature, layer) {
+            layer.on({
+                mouseout: function(e) {
+                    for (i in e.target._eventParents) {
+                        e.target._eventParents[i].resetStyle(e.target);
+                    }
+                },
+                mouseover: highlightFeature,
+            });
+            var popupContent = '<table>\
+                </table>';
+            layer.bindPopup(popupContent, {maxHeight: 400});
+            var popup = layer.getPopup();
+            var content = popup.getContent();
+            var updatedContent = removeEmptyRowsFromPopupContent(content, feature);
+            popup.setContent(updatedContent);
+        }
+
+        function style_BencanaLongsor_2_0(feature) {
+            switch(String(feature.properties['Longsor'])) {
+                case 'Tingkat Bahaya Tinggi':
+                    return {
+                pane: 'pane_BencanaLongsor_2',
+                opacity: 1,
+                color: 'rgba(35,35,35,1.0)',
+                dashArray: '',
+                lineCap: 'butt',
+                lineJoin: 'miter',
+                weight: 1, 
+                fill: true,
+                fillOpacity: 1,
+                fillColor: 'rgba(211,32,32,1.0)',
+                interactive: false,
+            }
+                    break;
+                case 'Tingkat Bahaya Sedang':
+                    return {
+                pane: 'pane_BencanaLongsor_2',
+                opacity: 1,
+                color: 'rgba(35,35,35,1.0)',
+                dashArray: '',
+                lineCap: 'butt',
+                lineJoin: 'miter',
+                weight: 1, 
+                fill: true,
+                fillOpacity: 1,
+                fillColor: 'rgba(251,112,80,1.0)',
+                interactive: false,
+            }
+                    break;
+                case 'Tingkat Bahaya Rendah':
+                    return {
+                pane: 'pane_BencanaLongsor_2',
+                opacity: 1,
+                color: 'rgba(35,35,35,1.0)',
+                dashArray: '',
+                lineCap: 'butt',
+                lineJoin: 'miter',
+                weight: 1, 
+                fill: true,
+                fillOpacity: 1,
+                fillColor: 'rgba(252,190,165,1.0)',
+                interactive: false,
+            }
+                    break;
+            }
+        }
+        map.createPane('pane_BencanaLongsor_2');
+        map.getPane('pane_BencanaLongsor_2').style.zIndex = 402;
+        map.getPane('pane_BencanaLongsor_2').style['mix-blend-mode'] = 'normal';
+        var layer_BencanaLongsor_2 = new L.geoJson(json_BencanaLongsor_2, {
+            attribution: '',
+            interactive: false,
+            dataVar: 'json_BencanaLongsor_2',
+            layerName: 'layer_BencanaLongsor_2',
+            pane: 'pane_BencanaLongsor_2',
+            onEachFeature: pop_BencanaLongsor_2,
+            style: style_BencanaLongsor_2_0,
+        });
+        bounds_group.addLayer(layer_BencanaLongsor_2);
+        map.addLayer(layer_BencanaLongsor_2);
+        function pop_BencanaBanjir_3(feature, layer) {
+            layer.on({
+                mouseout: function(e) {
+                    for (i in e.target._eventParents) {
+                        e.target._eventParents[i].resetStyle(e.target);
+                    }
+                },
+                mouseover: highlightFeature,
+            });
+            var popupContent = '<table>\
+                </table>';
+            layer.bindPopup(popupContent, {maxHeight: 400});
+            var popup = layer.getPopup();
+            var content = popup.getContent();
+            var updatedContent = removeEmptyRowsFromPopupContent(content, feature);
+            popup.setContent(updatedContent);
+        }
+
+        function style_BencanaBanjir_3_0(feature) {
+            switch(String(feature.properties['Banjir'])) {
+                case 'Tingkat Bahaya Tinggi':
+                    return {
+                pane: 'pane_BencanaBanjir_3',
+                opacity: 1,
+                color: 'rgba(35,35,35,1.0)',
+                dashArray: '',
+                lineCap: 'butt',
+                lineJoin: 'miter',
+                weight: 1, 
+                fill: true,
+                fillOpacity: 1,
+                fillColor: 'rgba(41,121,185,1.0)',
+                interactive: false,
+            }
+                    break;
+                case 'Tingkat Bahaya Sedang':
+                    return {
+                pane: 'pane_BencanaBanjir_3',
+                opacity: 1,
+                color: 'rgba(35,35,35,1.0)',
+                dashArray: '',
+                lineCap: 'butt',
+                lineJoin: 'miter',
+                weight: 1, 
+                fill: true,
+                fillOpacity: 1,
+                fillColor: 'rgba(115,178,216,1.0)',
+                interactive: false,
+            }
+                    break;
+                case 'Tingkat Bahaya Rendah':
+                    return {
+                pane: 'pane_BencanaBanjir_3',
+                opacity: 1,
+                color: 'rgba(35,35,35,1.0)',
+                dashArray: '',
+                lineCap: 'butt',
+                lineJoin: 'miter',
+                weight: 1, 
+                fill: true,
+                fillOpacity: 1,
+                fillColor: 'rgba(200,220,240,1.0)',
+                interactive: false,
+            }
+                    break;
+            }
+        }
+        map.createPane('pane_BencanaBanjir_3');
+        map.getPane('pane_BencanaBanjir_3').style.zIndex = 403;
+        map.getPane('pane_BencanaBanjir_3').style['mix-blend-mode'] = 'normal';
+        var layer_BencanaBanjir_3 = new L.geoJson(json_BencanaBanjir_3, {
+            attribution: '',
+            interactive: false,
+            dataVar: 'json_BencanaBanjir_3',
+            layerName: 'layer_BencanaBanjir_3',
+            pane: 'pane_BencanaBanjir_3',
+            onEachFeature: pop_BencanaBanjir_3,
+            style: style_BencanaBanjir_3_0,
+        });
+        bounds_group.addLayer(layer_BencanaBanjir_3);
+        map.addLayer(layer_BencanaBanjir_3);
+        map.createPane('pane_Jalan_4');
+        map.getPane('pane_Jalan_4').style.zIndex = 404;
+        var layer_Jalan_4 = L.tileLayer('https://mt1.google.com/vt?lyrs=h@159000000,traffic|seconds_into_week:-1&style=3&x={x}&y={y}&z={z}', {
+            pane: 'pane_Jalan_4',
+            opacity: 1.0,
+            attribution: '<a href="https://www.google.at/permissions/geoguidelines/attr-guide.html">Map data ©2015 Google</a>',
+            minZoom: 9,
+            maxZoom: 19,
+            minNativeZoom: 0,
+            maxNativeZoom: 20
+        });
+        layer_Jalan_4;
+        map.addLayer(layer_Jalan_4);
+        function pop_TPS_5(feature, layer) {
+            layer.on({
+                mouseout: function(e) {
+                    for (i in e.target._eventParents) {
+                        e.target._eventParents[i].resetStyle(e.target);
+                    }
+                },
+                mouseover: highlightFeature,
+            });
+            var popupContent = '<table>\
+                    <tr>\
+                        <td colspan="2"><strong>KECAMATAN</strong><br />' + (feature.properties['KECAMATAN'] !== null ? autolinker.link(feature.properties['KECAMATAN'].toLocaleString()) : '') + '</td>\
+                    </tr>\
+                    <tr>\
+                        <td colspan="2"><strong>DESA_KEL</strong><br />' + (feature.properties['DESA_KEL'] !== null ? autolinker.link(feature.properties['DESA_KEL'].toLocaleString()) : '') + '</td>\
+                    </tr>\
+                    <tr>\
+                        <td colspan="2"><strong>TPS</strong><br />' + (feature.properties['TPS'] !== null ? autolinker.link(feature.properties['TPS'].toLocaleString()) : '') + '</td>\
+                    </tr>\
+                    <tr>\
+                        <td colspan="2"><strong>BANJIR</strong><br />' + (feature.properties['BANJIR'] !== null ? autolinker.link(feature.properties['BANJIR'].toLocaleString()) : '') + '</td>\
+                    </tr>\
+                    <tr>\
+                        <td colspan="2"><strong>LONGSOR</strong><br />' + (feature.properties['LONGSOR'] !== null ? autolinker.link(feature.properties['LONGSOR'].toLocaleString()) : '') + '</td>\
+                    </tr>\
+                </table>';
+            layer.bindPopup(popupContent, {maxHeight: 400});
+            var popup = layer.getPopup();
+            var content = popup.getContent();
+            var updatedContent = removeEmptyRowsFromPopupContent(content, feature);
+            popup.setContent(updatedContent);
+        }
+
+        function style_TPS_5_0() {
+            return {
+                pane: 'pane_TPS_5',
+                radius: 6.0,
+                opacity: 1,
+                color: 'rgba(128,17,25,1.0)',
+                dashArray: '',
+                lineCap: 'butt',
+                lineJoin: 'miter',
+                weight: 2.0,
+                fill: true,
+                fillOpacity: 1,
+                fillColor: 'rgba(255,170,0,1.0)',
+                interactive: true,
+            }
+        }
+        map.createPane('pane_TPS_5');
+        map.getPane('pane_TPS_5').style.zIndex = 405;
+        map.getPane('pane_TPS_5').style['mix-blend-mode'] = 'normal';
+        var layer_TPS_5 = new L.geoJson(json_TPS_5, {
+            attribution: '',
+            interactive: true,
+            dataVar: 'json_TPS_5',
+            layerName: 'layer_TPS_5',
+            pane: 'pane_TPS_5',
+            onEachFeature: pop_TPS_5,
+            pointToLayer: function (feature, latlng) {
+                var context = {
+                    feature: feature,
+                    variables: {}
+                };
+                return L.circleMarker(latlng, style_TPS_5_0(feature));
+            },
+        });
+        bounds_group.addLayer(layer_TPS_5);
+        map.addLayer(layer_TPS_5);
+            var title = new L.Control();
+            title.onAdd = function (map) {
+                this._div = L.DomUtil.create('div', 'info');
+                this.update();
+                return this._div;
+            };
+            title.update = function () {
+                this._div.innerHTML = '<h2>Peta Bahaya Bencana pada TPS Pemilu 2024 di Jepara</h2>';
+            };
+            title.addTo(map);
+            var abstract = new L.Control({'position':'bottomright'});
+            abstract.onAdd = function (map) {
+                this._div = L.DomUtil.create('div',
+                'leaflet-control abstract');
+                this._div.id = 'abstract'
+
+                    abstract.show();
+                    return this._div;
+                };
+                abstract.show = function () {
+                    this._div.classList.remove("abstract");
+                    this._div.classList.add("abstractUncollapsed");
+                    this._div.innerHTML = 'Sumber Data:<br />1. Olah Data Indeks Bahaya Bencana BNPB oleh BPBD Jepara<br />2. Lokasi TPS Pemilu 2024 oleh KPU Jepara<br />===============<br />> Klik pada titik TPS untuk informasi selengkapnya<br />> Gunakan panel samping untuk navigasi layer peta';
+            };
+            abstract.addTo(map);
+        var osmGeocoder = new L.Control.Geocoder({
+            collapsed: true,
+            position: 'topleft',
+            text: 'Search',
+            title: 'Testing'
+        }).addTo(map);
+        document.getElementsByClassName('leaflet-control-geocoder-icon')[0]
+        .className += ' fa fa-search';
+        document.getElementsByClassName('leaflet-control-geocoder-icon')[0]
+        .title += 'Search for a place';
+        var baseMaps = {};
+        L.control.layers(baseMaps,{'<img src="legend/TPS_5.png" /> TPS': layer_TPS_5,"Jalan": layer_Jalan_4,'Bencana Banjir<br /><table><tr><td style="text-align: center;"><img src="legend/BencanaBanjir_3_TingkatBahayaTinggi0.png" /></td><td>Tingkat Bahaya Tinggi</td></tr><tr><td style="text-align: center;"><img src="legend/BencanaBanjir_3_TingkatBahayaSedang1.png" /></td><td>Tingkat Bahaya Sedang</td></tr><tr><td style="text-align: center;"><img src="legend/BencanaBanjir_3_TingkatBahayaRendah2.png" /></td><td>Tingkat Bahaya Rendah</td></tr></table>': layer_BencanaBanjir_3,'Bencana Longsor<br /><table><tr><td style="text-align: center;"><img src="legend/BencanaLongsor_2_TingkatBahayaTinggi0.png" /></td><td>Tingkat Bahaya Tinggi</td></tr><tr><td style="text-align: center;"><img src="legend/BencanaLongsor_2_TingkatBahayaSedang1.png" /></td><td>Tingkat Bahaya Sedang</td></tr><tr><td style="text-align: center;"><img src="legend/BencanaLongsor_2_TingkatBahayaRendah2.png" /></td><td>Tingkat Bahaya Rendah</td></tr></table>': layer_BencanaLongsor_2,'<img src="legend/BatasKabJepara_1.png" /> Batas Kab. Jepara': layer_BatasKabJepara_1,"Google Terrain": layer_GoogleTerrain_0,},{collapsed:false}).addTo(map);
+        setBounds();
+        map.addControl(new L.Control.Search({
+            layer: layer_TPS_5,
+            initial: false,
+            hideMarkerOnCollapse: true,
+            propertyName: 'DESA_KEL'}));
+        document.getElementsByClassName('search-button')[0].className +=
+         ' fa fa-binoculars';
+        var mapDiv = document.getElementById('map');
+        var row = document.createElement('div');
+        row.className="row";
+        row.id="all";
+        row.style.height = "100%";
+        var col1 = document.createElement('div');
+        col1.className="col9";
+        col1.id = "mapWindow";
+        col1.style.height = "99%";
+        col1.style.width = "80%";
+        col1.style.display = "inline-block";
+        var col2 = document.createElement('div');
+        col2.className="col3";
+        col2.id = "menu";
+        col2.style.display = "inline-block";
+        mapDiv.parentNode.insertBefore(row, mapDiv);
+        document.getElementById("all").appendChild(col1);
+        document.getElementById("all").appendChild(col2);
+        col1.appendChild(mapDiv)
+        var Filters = {"KECAMATAN": "str","DESA_KEL": "str","Banjir": "str","Longsor": "str"};
+        function filterFunc() {
+          map.eachLayer(function(lyr){
+          if ("options" in lyr && "dataVar" in lyr["options"]){
+            features = this[lyr["options"]["dataVar"]].features.slice(0);
+            try{
+              for (key in Filters){
+                keyS = key.replace(/[^a-zA-Z0-9_]/g, "")
+                if (Filters[key] == "str" || Filters[key] == "bool"){
+                  var selection = [];
+                  var options = document.getElementById("sel_" + keyS).options
+                  for (var i=0; i < options.length; i++) {
+                    if (options[i].selected) selection.push(options[i].value);
+                  }
+                    try{
+                      if (key in features[0].properties){
+                        for (i = features.length - 1;
+                          i >= 0; --i){
+                          if (selection.indexOf(
+                          features[i].properties[key])<0
+                          && selection.length>0) {
+                          features.splice(i,1);
+                          }
+                        }
+                      }
+                    } catch(err){
+                  }
+                }
+                if (Filters[key] == "int"){
+                  sliderVals =  document.getElementById(
+                    "div_" + keyS).noUiSlider.get();
+                  try{
+                    if (key in features[0].properties){
+                    for (i = features.length - 1; i >= 0; --i){
+                      if (parseInt(features[i].properties[key])
+                          < sliderVals[0]
+                          || parseInt(features[i].properties[key])
+                          > sliderVals[1]){
+                            features.splice(i,1);
+                          }
+                        }
+                      }
+                    } catch(err){
+                    }
+                  }
+                if (Filters[key] == "real"){
+                  sliderVals =  document.getElementById(
+                    "div_" + keyS).noUiSlider.get();
+                  try{
+                    if (key in features[0].properties){
+                    for (i = features.length - 1; i >= 0; --i){
+                      if (features[i].properties[key]
+                          < sliderVals[0]
+                          || features[i].properties[key]
+                          > sliderVals[1]){
+                            features.splice(i,1);
+                          }
+                        }
+                      }
+                    } catch(err){
+                    }
+                  }
+                if (Filters[key] == "date"
+                  || Filters[key] == "datetime"
+                  || Filters[key] == "time"){
+                  try{
+                    if (key in features[0].properties){
+                      HTMLkey = key.replace(/[&\/\\#,+()$~%.'":*?<>{} ]/g, '');
+                      startdate = document.getElementById("dat_" +
+                        HTMLkey + "_date1").value.replace(" ", "T");
+                      enddate = document.getElementById("dat_" +
+                        HTMLkey + "_date2").value.replace(" ", "T");
+                      for (i = features.length - 1; i >= 0; --i){
+                        if (features[i].properties[key] < startdate
+                          || features[i].properties[key] > enddate){
+                          features.splice(i,1);
+                        }
+                      }
+                    }
+                  } catch(err){
+                  }
+                }
+              }
+            } catch(err){
+            }
+          this[lyr["options"]["layerName"]].clearLayers();
+          this[lyr["options"]["layerName"]].addData(features);
+          }
+          })
+        }
+            document.getElementById("menu").appendChild(
+                document.createElement("div"));
+            var div_KECAMATAN = document.createElement('div');
+            div_KECAMATAN.id = "div_KECAMATAN";
+            div_KECAMATAN.className= "filterselect";
+            document.getElementById("menu").appendChild(div_KECAMATAN);
+            sel_KECAMATAN = document.createElement('select');
+            sel_KECAMATAN.multiple = true;
+            sel_KECAMATAN.size = 10;
+            sel_KECAMATAN.id = "sel_KECAMATAN";
+            var KECAMATAN_options_str = "<option value='' unselected></option>";
+            sel_KECAMATAN.onchange = function(){filterFunc()};
+            KECAMATAN_options_str  += '<option value="3558-KEDUNG">3558-KEDUNG</option>';
+            KECAMATAN_options_str  += '<option value="3559-PECANGAAN">3559-PECANGAAN</option>';
+            KECAMATAN_options_str  += '<option value="3560-WELAHAN">3560-WELAHAN</option>';
+            KECAMATAN_options_str  += '<option value="3561-MAYONG">3561-MAYONG</option>';
+            KECAMATAN_options_str  += '<option value="3562-BATEALIT">3562-BATEALIT</option>';
+            KECAMATAN_options_str  += '<option value="3563-JEPARA">3563-JEPARA</option>';
+            KECAMATAN_options_str  += '<option value="3564-MLONGGO">3564-MLONGGO</option>';
+            KECAMATAN_options_str  += '<option value="3565-BANGSRI">3565-BANGSRI</option>';
+            KECAMATAN_options_str  += '<option value="3566-KELING">3566-KELING</option>';
+            KECAMATAN_options_str  += '<option value="3567-KARIMUNJAWA">3567-KARIMUNJAWA</option>';
+            KECAMATAN_options_str  += '<option value="3568-TAHUNAN">3568-TAHUNAN</option>';
+            KECAMATAN_options_str  += '<option value="3569-NALUMSARI">3569-NALUMSARI</option>';
+            KECAMATAN_options_str  += '<option value="3570-KALINYAMATAN">3570-KALINYAMATAN</option>';
+            KECAMATAN_options_str  += '<option value="3571-KEMBANG">3571-KEMBANG</option>';
+            KECAMATAN_options_str  += '<option value="3572-PAKIS AJI">3572-PAKIS AJI</option>';
+            KECAMATAN_options_str  += '<option value="3573-DONOROJO">3573-DONOROJO</option>';
+            sel_KECAMATAN.innerHTML = KECAMATAN_options_str;
+            div_KECAMATAN.appendChild(sel_KECAMATAN);
+            var lab_KECAMATAN = document.createElement('div');
+            lab_KECAMATAN.innerHTML = 'KECAMATAN';
+            lab_KECAMATAN.className = 'filterlabel';
+            div_KECAMATAN.appendChild(lab_KECAMATAN);
+            var reset_KECAMATAN = document.createElement('div');
+            reset_KECAMATAN.innerHTML = 'clear filter';
+            reset_KECAMATAN.className = 'filterlabel';
+            reset_KECAMATAN.onclick = function() {
+                var options = document.getElementById("sel_KECAMATAN").options;
+                for (var i=0; i < options.length; i++) {
+                    options[i].selected = false;
+                }
+                filterFunc();
+            };
+            div_KECAMATAN.appendChild(reset_KECAMATAN);
+            document.getElementById("menu").appendChild(
+                document.createElement("div"));
+            var div_DESA_KEL = document.createElement('div');
+            div_DESA_KEL.id = "div_DESA_KEL";
+            div_DESA_KEL.className= "filterselect";
+            document.getElementById("menu").appendChild(div_DESA_KEL);
+            sel_DESA_KEL = document.createElement('select');
+            sel_DESA_KEL.multiple = true;
+            sel_DESA_KEL.size = 10;
+            sel_DESA_KEL.id = "sel_DESA_KEL";
+            var DESA_KEL_options_str = "<option value='' unselected></option>";
+            sel_DESA_KEL.onchange = function(){filterFunc()};
+            DESA_KEL_options_str  += '<option value="45254-KEDUNGMALANG">45254-KEDUNGMALANG</option>';
+            DESA_KEL_options_str  += '<option value="45255-KALIANYAR">45255-KALIANYAR</option>';
+            DESA_KEL_options_str  += '<option value="45256-KARANGAJI">45256-KARANGAJI</option>';
+            DESA_KEL_options_str  += '<option value="45257-TEDUNAN">45257-TEDUNAN</option>';
+            DESA_KEL_options_str  += '<option value="45258-SOWAN LOR">45258-SOWAN LOR</option>';
+            DESA_KEL_options_str  += '<option value="45259-SOWAN KIDUL">45259-SOWAN KIDUL</option>';
+            DESA_KEL_options_str  += '<option value="45260-WANUSOBO">45260-WANUSOBO</option>';
+            DESA_KEL_options_str  += '<option value="45261-SURODADI">45261-SURODADI</option>';
+            DESA_KEL_options_str  += '<option value="45262-PANGGUNG">45262-PANGGUNG</option>';
+            DESA_KEL_options_str  += '<option value="45263-BULAK BARU">45263-BULAK BARU</option>';
+            DESA_KEL_options_str  += '<option value="45264-JONDANG">45264-JONDANG</option>';
+            DESA_KEL_options_str  += '<option value="45265-BUGEL">45265-BUGEL</option>';
+            DESA_KEL_options_str  += '<option value="45266-DONGOS">45266-DONGOS</option>';
+            DESA_KEL_options_str  += '<option value="45267-MENGANTI">45267-MENGANTI</option>';
+            DESA_KEL_options_str  += '<option value="45268-KERSO">45268-KERSO</option>';
+            DESA_KEL_options_str  += '<option value="45269-TANGGUL TLARE">45269-TANGGUL TLARE</option>';
+            DESA_KEL_options_str  += '<option value="45270-RAU">45270-RAU</option>';
+            DESA_KEL_options_str  += '<option value="45271-SUKOSONO">45271-SUKOSONO</option>';
+            DESA_KEL_options_str  += '<option value="45272-KALIOMBO">45272-KALIOMBO</option>';
+            DESA_KEL_options_str  += '<option value="45273-KARANGRANDU">45273-KARANGRANDU</option>';
+            DESA_KEL_options_str  += '<option value="45274-GERDU">45274-GERDU</option>';
+            DESA_KEL_options_str  += '<option value="45275-PECANGAAN KULON">45275-PECANGAAN KULON</option>';
+            DESA_KEL_options_str  += '<option value="45276-RENGGING">45276-RENGGING</option>';
+            DESA_KEL_options_str  += '<option value="45277-TROSO">45277-TROSO</option>';
+            DESA_KEL_options_str  += '<option value="45278-NGELING">45278-NGELING</option>';
+            DESA_KEL_options_str  += '<option value="45279-PULODARAT">45279-PULODARAT</option>';
+            DESA_KEL_options_str  += '<option value="45280-LEBUAWU">45280-LEBUAWU</option>';
+            DESA_KEL_options_str  += '<option value="45281-GEMULUNG">45281-GEMULUNG</option>';
+            DESA_KEL_options_str  += '<option value="45282-PECANGAAN WETAN">45282-PECANGAAN WETAN</option>';
+            DESA_KEL_options_str  += '<option value="45283-KRASAK">45283-KRASAK</option>';
+            DESA_KEL_options_str  += '<option value="45284-UJUNG PANDAN">45284-UJUNG PANDAN</option>';
+            DESA_KEL_options_str  += '<option value="45285-KARANGANYAR">45285-KARANGANYAR</option>';
+            DESA_KEL_options_str  += '<option value="45286-GUWOSOBOKERTO">45286-GUWOSOBOKERTO</option>';
+            DESA_KEL_options_str  += '<option value="45287-KEDUNGSARIMULYO">45287-KEDUNGSARIMULYO</option>';
+            DESA_KEL_options_str  += '<option value="45288-BUGO">45288-BUGO</option>';
+            DESA_KEL_options_str  += '<option value="45289-WELAHAN">45289-WELAHAN</option>';
+            DESA_KEL_options_str  += '<option value="45290-GEDANGAN">45290-GEDANGAN</option>';
+            DESA_KEL_options_str  += '<option value="45291-KETILENGSINGOLELO">45291-KETILENGSINGOLELO</option>';
+            DESA_KEL_options_str  += '<option value="45292-KALIPUCANG WETAN">45292-KALIPUCANG WETAN</option>';
+            DESA_KEL_options_str  += '<option value="45293-KALIPUCANG KULON">45293-KALIPUCANG KULON</option>';
+            DESA_KEL_options_str  += '<option value="45294-GIDANGELO">45294-GIDANGELO</option>';
+            DESA_KEL_options_str  += '<option value="45295-KENDENGSIDIALIT">45295-KENDENGSIDIALIT</option>';
+            DESA_KEL_options_str  += '<option value="45296-SIDIGEDE">45296-SIDIGEDE</option>';
+            DESA_KEL_options_str  += '<option value="45297-TELUK WETAN">45297-TELUK WETAN</option>';
+            DESA_KEL_options_str  += '<option value="45298-BRANTAK SEKARJATI">45298-BRANTAK SEKARJATI</option>';
+            DESA_KEL_options_str  += '<option value="45299-MAYONG LOR">45299-MAYONG LOR</option>';
+            DESA_KEL_options_str  += '<option value="45300-TIGAJURU">45300-TIGAJURU</option>';
+            DESA_KEL_options_str  += '<option value="45301-PAREN">45301-PAREN</option>';
+            DESA_KEL_options_str  += '<option value="45302-KUANYAR">45302-KUANYAR</option>';
+            DESA_KEL_options_str  += '<option value="45303-PELANG">45303-PELANG</option>';
+            DESA_KEL_options_str  += '<option value="45304-SENGONBUGEL">45304-SENGONBUGEL</option>';
+            DESA_KEL_options_str  += '<option value="45305-JEBOL">45305-JEBOL</option>';
+            DESA_KEL_options_str  += '<option value="45306-SINGOROJO">45306-SINGOROJO</option>';
+            DESA_KEL_options_str  += '<option value="45307-PELEMKEREP">45307-PELEMKEREP</option>';
+            DESA_KEL_options_str  += '<option value="45308-BUARAN">45308-BUARAN</option>';
+            DESA_KEL_options_str  += '<option value="45309-NGROTO">45309-NGROTO</option>';
+            DESA_KEL_options_str  += '<option value="45310-RAJEKWESI">45310-RAJEKWESI</option>';
+            DESA_KEL_options_str  += '<option value="45311-DATAR">45311-DATAR</option>';
+            DESA_KEL_options_str  += '<option value="45312-PULE">45312-PULE</option>';
+            DESA_KEL_options_str  += '<option value="45313-BANDUNG">45313-BANDUNG</option>';
+            DESA_KEL_options_str  += '<option value="45314-BUNGU">45314-BUNGU</option>';
+            DESA_KEL_options_str  += '<option value="45315-PANCUR">45315-PANCUR</option>';
+            DESA_KEL_options_str  += '<option value="45316-MAYONG KIDUL">45316-MAYONG KIDUL</option>';
+            DESA_KEL_options_str  += '<option value="45317-GENENG">45317-GENENG</option>';
+            DESA_KEL_options_str  += '<option value="45318-RAGUKLAMPITAN">45318-RAGUKLAMPITAN</option>';
+            DESA_KEL_options_str  += '<option value="45319-NGASEM">45319-NGASEM</option>';
+            DESA_KEL_options_str  += '<option value="45320-BAWU">45320-BAWU</option>';
+            DESA_KEL_options_str  += '<option value="45321-MINDAHAN">45321-MINDAHAN</option>';
+            DESA_KEL_options_str  += '<option value="45322-SOMOSARI">45322-SOMOSARI</option>';
+            DESA_KEL_options_str  += '<option value="45323-BATEALIT">45323-BATEALIT</option>';
+            DESA_KEL_options_str  += '<option value="45324-BRINGIN">45324-BRINGIN</option>';
+            DESA_KEL_options_str  += '<option value="45325-BANTRUNG">45325-BANTRUNG</option>';
+            DESA_KEL_options_str  += '<option value="45326-PEKALONGAN">45326-PEKALONGAN</option>';
+            DESA_KEL_options_str  += '<option value="45327-MINDAHAN KIDUL">45327-MINDAHAN KIDUL</option>';
+            DESA_KEL_options_str  += '<option value="45328-KARANGKEBAGUSAN">45328-KARANGKEBAGUSAN</option>';
+            DESA_KEL_options_str  += '<option value="45329-DEMAAN">45329-DEMAAN</option>';
+            DESA_KEL_options_str  += '<option value="45330-POTROYUDAN">45330-POTROYUDAN</option>';
+            DESA_KEL_options_str  += '<option value="45331-BAPANGAN">45331-BAPANGAN</option>';
+            DESA_KEL_options_str  += '<option value="45332-SARIPAN">45332-SARIPAN</option>';
+            DESA_KEL_options_str  += '<option value="45333-PANGGANG">45333-PANGGANG</option>';
+            DESA_KEL_options_str  += '<option value="45334-KAUMAN">45334-KAUMAN</option>';
+            DESA_KEL_options_str  += '<option value="45335-BULU">45335-BULU</option>';
+            DESA_KEL_options_str  += '<option value="45336-JOBOKUTO">45336-JOBOKUTO</option>';
+            DESA_KEL_options_str  += '<option value="45337-UJUNGBATU">45337-UJUNGBATU</option>';
+            DESA_KEL_options_str  += '<option value="45338-PENGKOL">45338-PENGKOL</option>';
+            DESA_KEL_options_str  += '<option value="45339-MULYOHARJO">45339-MULYOHARJO</option>';
+            DESA_KEL_options_str  += '<option value="45340-WONOREJO">45340-WONOREJO</option>';
+            DESA_KEL_options_str  += '<option value="45341-KEDUNGCINO">45341-KEDUNGCINO</option>';
+            DESA_KEL_options_str  += '<option value="45342-KUWASEN">45342-KUWASEN</option>';
+            DESA_KEL_options_str  += '<option value="45343-BANDENGAN">45343-BANDENGAN</option>';
+            DESA_KEL_options_str  += '<option value="45344-MOROREJO">45344-MOROREJO</option>';
+            DESA_KEL_options_str  += '<option value="45345-SUWAWAL">45345-SUWAWAL</option>';
+            DESA_KEL_options_str  += '<option value="45346-SINANGGUL">45346-SINANGGUL</option>';
+            DESA_KEL_options_str  += '<option value="45347-JAMBU">45347-JAMBU</option>';
+            DESA_KEL_options_str  += '<option value="45348-SROBYONG">45348-SROBYONG</option>';
+            DESA_KEL_options_str  += '<option value="45349-SEKURO">45349-SEKURO</option>';
+            DESA_KEL_options_str  += '<option value="45350-KARANGGONDANG">45350-KARANGGONDANG</option>';
+            DESA_KEL_options_str  += '<option value="45351-JAMBU TIMUR">45351-JAMBU TIMUR</option>';
+            DESA_KEL_options_str  += '<option value="45352-GUYANGAN">45352-GUYANGAN</option>';
+            DESA_KEL_options_str  += '<option value="45353-KEPUK">45353-KEPUK</option>';
+            DESA_KEL_options_str  += '<option value="45354-PAPASAN">45354-PAPASAN</option>';
+            DESA_KEL_options_str  += '<option value="45355-SRIKANDANG">45355-SRIKANDANG</option>';
+            DESA_KEL_options_str  += '<option value="45356-TENGGULI">45356-TENGGULI</option>';
+            DESA_KEL_options_str  += '<option value="45357-BANGSRI">45357-BANGSRI</option>';
+            DESA_KEL_options_str  += '<option value="45358-BANJARAN">45358-BANJARAN</option>';
+            DESA_KEL_options_str  += '<option value="45359-WEDELAN">45359-WEDELAN</option>';
+            DESA_KEL_options_str  += '<option value="45360-KEDUNGLEPER">45360-KEDUNGLEPER</option>';
+            DESA_KEL_options_str  += '<option value="45361-JERUKWANGI">45361-JERUKWANGI</option>';
+            DESA_KEL_options_str  += '<option value="45362-BONDO">45362-BONDO</option>';
+            DESA_KEL_options_str  += '<option value="45363-BANJARAGUNG">45363-BANJARAGUNG</option>';
+            DESA_KEL_options_str  += '<option value="45364-TEMPUR">45364-TEMPUR</option>';
+            DESA_KEL_options_str  += '<option value="45365-DAMARWULAN">45365-DAMARWULAN</option>';
+            DESA_KEL_options_str  += '<option value="45366-KUNIR">45366-KUNIR</option>';
+            DESA_KEL_options_str  += '<option value="45367-WATUAJI">45367-WATUAJI</option>';
+            DESA_KEL_options_str  += '<option value="45368-KLEPU">45368-KLEPU</option>';
+            DESA_KEL_options_str  += '<option value="45369-TUNAHAN">45369-TUNAHAN</option>';
+            DESA_KEL_options_str  += '<option value="45370-KALIGARANG">45370-KALIGARANG</option>';
+            DESA_KEL_options_str  += '<option value="45371-KELING">45371-KELING</option>';
+            DESA_KEL_options_str  += '<option value="45372-GELANG">45372-GELANG</option>';
+            DESA_KEL_options_str  += '<option value="45373-JLEGONG">45373-JLEGONG</option>';
+            DESA_KEL_options_str  += '<option value="45374-KELET">45374-KELET</option>';
+            DESA_KEL_options_str  += '<option value="45375-BUMIHARJO">45375-BUMIHARJO</option>';
+            DESA_KEL_options_str  += '<option value="45376-KARIMUNJAWA">45376-KARIMUNJAWA</option>';
+            DESA_KEL_options_str  += '<option value="45377-KEMUJAN">45377-KEMUJAN</option>';
+            DESA_KEL_options_str  += '<option value="45378-PARANG">45378-PARANG</option>';
+            DESA_KEL_options_str  += '<option value="45379-NYAMUK">45379-NYAMUK</option>';
+            DESA_KEL_options_str  += '<option value="45380-NGABUL">45380-NGABUL</option>';
+            DESA_KEL_options_str  += '<option value="45381-LANGON">45381-LANGON</option>';
+            DESA_KEL_options_str  += '<option value="45382-SUKODONO">45382-SUKODONO</option>';
+            DESA_KEL_options_str  += '<option value="45383-PETEKEYAN">45383-PETEKEYAN</option>';
+            DESA_KEL_options_str  += '<option value="45384-MANGUNAN">45384-MANGUNAN</option>';
+            DESA_KEL_options_str  += '<option value="45385-PLATAR">45385-PLATAR</option>';
+            DESA_KEL_options_str  += '<option value="45386-SEMAT">45386-SEMAT</option>';
+            DESA_KEL_options_str  += '<option value="45387-TELUKAWUR">45387-TELUKAWUR</option>';
+            DESA_KEL_options_str  += '<option value="45388-DEMANGAN">45388-DEMANGAN</option>';
+            DESA_KEL_options_str  += '<option value="45389-TEGALSAMBI">45389-TEGALSAMBI</option>';
+            DESA_KEL_options_str  += '<option value="45390-MANTINGAN">45390-MANTINGAN</option>';
+            DESA_KEL_options_str  += '<option value="45391-TAHUNAN">45391-TAHUNAN</option>';
+            DESA_KEL_options_str  += '<option value="45392-KECAPI">45392-KECAPI</option>';
+            DESA_KEL_options_str  += '<option value="45393-SENENAN">45393-SENENAN</option>';
+            DESA_KEL_options_str  += '<option value="45394-KRAPYAK">45394-KRAPYAK</option>';
+            DESA_KEL_options_str  += '<option value="45395-BLIMBINGREJO">45395-BLIMBINGREJO</option>';
+            DESA_KEL_options_str  += '<option value="45396-TUNGGULPANDEAN">45396-TUNGGULPANDEAN</option>';
+            DESA_KEL_options_str  += '<option value="45397-PRINGTULIS">45397-PRINGTULIS</option>';
+            DESA_KEL_options_str  += '<option value="45398-JATISARI">45398-JATISARI</option>';
+            DESA_KEL_options_str  += '<option value="45399-GEMIRING KIDUL">45399-GEMIRING KIDUL</option>';
+            DESA_KEL_options_str  += '<option value="45400-GEMIRING LOR">45400-GEMIRING LOR</option>';
+            DESA_KEL_options_str  += '<option value="45401-NALUMSARI">45401-NALUMSARI</option>';
+            DESA_KEL_options_str  += '<option value="45402-TRITIS">45402-TRITIS</option>';
+            DESA_KEL_options_str  += '<option value="45403-DAREN">45403-DAREN</option>';
+            DESA_KEL_options_str  += '<option value="45404-KARANGNONGKO">45404-KARANGNONGKO</option>';
+            DESA_KEL_options_str  += '<option value="45405-NGETUK">45405-NGETUK</option>';
+            DESA_KEL_options_str  += '<option value="45406-BENDANPETE">45406-BENDANPETE</option>';
+            DESA_KEL_options_str  += '<option value="45407-MURYOLOBO">45407-MURYOLOBO</option>';
+            DESA_KEL_options_str  += '<option value="45408-BATEGEDE">45408-BATEGEDE</option>';
+            DESA_KEL_options_str  += '<option value="45409-DORANG">45409-DORANG</option>';
+            DESA_KEL_options_str  += '<option value="45410-BATUKALI">45410-BATUKALI</option>';
+            DESA_KEL_options_str  += '<option value="45411-BANDUNGREJO">45411-BANDUNGREJO</option>';
+            DESA_KEL_options_str  += '<option value="45412-BANYUPUTIH">45412-BANYUPUTIH</option>';
+            DESA_KEL_options_str  += '<option value="45413-PENDOSAWALAN">45413-PENDOSAWALAN</option>';
+            DESA_KEL_options_str  += '<option value="45414-DAMARJATI">45414-DAMARJATI</option>';
+            DESA_KEL_options_str  += '<option value="45415-PURWOGONDO">45415-PURWOGONDO</option>';
+            DESA_KEL_options_str  += '<option value="45416-MARGOYOSO">45416-MARGOYOSO</option>';
+            DESA_KEL_options_str  += '<option value="45417-SENDANG">45417-SENDANG</option>';
+            DESA_KEL_options_str  += '<option value="45418-KRIYAN">45418-KRIYAN</option>';
+            DESA_KEL_options_str  += '<option value="45419-ROBAYAN">45419-ROBAYAN</option>';
+            DESA_KEL_options_str  += '<option value="45420-BAKALAN">45420-BAKALAN</option>';
+            DESA_KEL_options_str  += '<option value="45421-MANYARGADING">45421-MANYARGADING</option>';
+            DESA_KEL_options_str  += '<option value="45422-DUDAK AWU">45422-DUDAK AWU</option>';
+            DESA_KEL_options_str  += '<option value="45423-SUMANDING">45423-SUMANDING</option>';
+            DESA_KEL_options_str  += '<option value="45424-BUCU">45424-BUCU</option>';
+            DESA_KEL_options_str  += '<option value="45425-CEPOGO">45425-CEPOGO</option>';
+            DESA_KEL_options_str  += '<option value="45426-PENDEM">45426-PENDEM</option>';
+            DESA_KEL_options_str  += '<option value="45427-JINGGOTAN">45427-JINGGOTAN</option>';
+            DESA_KEL_options_str  += '<option value="45428-DERMOLO">45428-DERMOLO</option>';
+            DESA_KEL_options_str  += '<option value="45429-KALIAMAN">45429-KALIAMAN</option>';
+            DESA_KEL_options_str  += '<option value="45430-TUBANAN">45430-TUBANAN</option>';
+            DESA_KEL_options_str  += '<option value="45431-BALONG">45431-BALONG</option>';
+            DESA_KEL_options_str  += '<option value="45432-KANCILAN">45432-KANCILAN</option>';
+            DESA_KEL_options_str  += '<option value="45433-LEBAK">45433-LEBAK</option>';
+            DESA_KEL_options_str  += '<option value="45434-BULUNGAN">45434-BULUNGAN</option>';
+            DESA_KEL_options_str  += '<option value="45435-SUWAWAL TIMUR">45435-SUWAWAL TIMUR</option>';
+            DESA_KEL_options_str  += '<option value="45436-KAWAK">45436-KAWAK</option>';
+            DESA_KEL_options_str  += '<option value="45437-TANJUNG">45437-TANJUNG</option>';
+            DESA_KEL_options_str  += '<option value="45438-PLAJAN">45438-PLAJAN</option>';
+            DESA_KEL_options_str  += '<option value="45439-SLAGI">45439-SLAGI</option>';
+            DESA_KEL_options_str  += '<option value="45440-MAMBAK">45440-MAMBAK</option>';
+            DESA_KEL_options_str  += '<option value="45441-SUMBERREJO">45441-SUMBERREJO</option>';
+            DESA_KEL_options_str  += '<option value="45442-CLERING">45442-CLERING</option>';
+            DESA_KEL_options_str  += '<option value="45443-UJUNGWATU">45443-UJUNGWATU</option>';
+            DESA_KEL_options_str  += '<option value="45444-BANYUMANIS">45444-BANYUMANIS</option>';
+            DESA_KEL_options_str  += '<option value="45445-TULAKAN">45445-TULAKAN</option>';
+            DESA_KEL_options_str  += '<option value="45446-BANDUNGHARJO">45446-BANDUNGHARJO</option>';
+            DESA_KEL_options_str  += '<option value="45447-BLINGOH">45447-BLINGOH</option>';
+            DESA_KEL_options_str  += '<option value="45448-JUGO">45448-JUGO</option>';
+            sel_DESA_KEL.innerHTML = DESA_KEL_options_str;
+            div_DESA_KEL.appendChild(sel_DESA_KEL);
+            var lab_DESA_KEL = document.createElement('div');
+            lab_DESA_KEL.innerHTML = 'DESA_KEL';
+            lab_DESA_KEL.className = 'filterlabel';
+            div_DESA_KEL.appendChild(lab_DESA_KEL);
+            var reset_DESA_KEL = document.createElement('div');
+            reset_DESA_KEL.innerHTML = 'clear filter';
+            reset_DESA_KEL.className = 'filterlabel';
+            reset_DESA_KEL.onclick = function() {
+                var options = document.getElementById("sel_DESA_KEL").options;
+                for (var i=0; i < options.length; i++) {
+                    options[i].selected = false;
+                }
+                filterFunc();
+            };
+            div_DESA_KEL.appendChild(reset_DESA_KEL);
+            document.getElementById("menu").appendChild(
+                document.createElement("div"));
+            var div_Banjir = document.createElement('div');
+            div_Banjir.id = "div_Banjir";
+            div_Banjir.className= "filterselect";
+            document.getElementById("menu").appendChild(div_Banjir);
+            sel_Banjir = document.createElement('select');
+            sel_Banjir.multiple = true;
+            sel_Banjir.size = 3;
+            sel_Banjir.id = "sel_Banjir";
+            var Banjir_options_str = "<option value='' unselected></option>";
+            sel_Banjir.onchange = function(){filterFunc()};
+            Banjir_options_str  += '<option value="Tingkat Bahaya Rendah">Tingkat Bahaya Rendah</option>';
+            Banjir_options_str  += '<option value="Tingkat Bahaya Sedang">Tingkat Bahaya Sedang</option>';
+            Banjir_options_str  += '<option value="Tingkat Bahaya Tinggi">Tingkat Bahaya Tinggi</option>';
+            sel_Banjir.innerHTML = Banjir_options_str;
+            div_Banjir.appendChild(sel_Banjir);
+            var lab_Banjir = document.createElement('div');
+            lab_Banjir.innerHTML = 'Banjir';
+            lab_Banjir.className = 'filterlabel';
+            div_Banjir.appendChild(lab_Banjir);
+            var reset_Banjir = document.createElement('div');
+            reset_Banjir.innerHTML = 'clear filter';
+            reset_Banjir.className = 'filterlabel';
+            reset_Banjir.onclick = function() {
+                var options = document.getElementById("sel_Banjir").options;
+                for (var i=0; i < options.length; i++) {
+                    options[i].selected = false;
+                }
+                filterFunc();
+            };
+            div_Banjir.appendChild(reset_Banjir);
+            document.getElementById("menu").appendChild(
+                document.createElement("div"));
+            var div_Longsor = document.createElement('div');
+            div_Longsor.id = "div_Longsor";
+            div_Longsor.className= "filterselect";
+            document.getElementById("menu").appendChild(div_Longsor);
+            sel_Longsor = document.createElement('select');
+            sel_Longsor.multiple = true;
+            sel_Longsor.size = 3;
+            sel_Longsor.id = "sel_Longsor";
+            var Longsor_options_str = "<option value='' unselected></option>";
+            sel_Longsor.onchange = function(){filterFunc()};
+            Longsor_options_str  += '<option value="Tingkat Bahaya Rendah">Tingkat Bahaya Rendah</option>';
+            Longsor_options_str  += '<option value="Tingkat Bahaya Sedang">Tingkat Bahaya Sedang</option>';
+            Longsor_options_str  += '<option value="Tingkat Bahaya Tinggi">Tingkat Bahaya Tinggi</option>';
+            sel_Longsor.innerHTML = Longsor_options_str;
+            div_Longsor.appendChild(sel_Longsor);
+            var lab_Longsor = document.createElement('div');
+            lab_Longsor.innerHTML = 'Longsor';
+            lab_Longsor.className = 'filterlabel';
+            div_Longsor.appendChild(lab_Longsor);
+            var reset_Longsor = document.createElement('div');
+            reset_Longsor.innerHTML = 'clear filter';
+            reset_Longsor.className = 'filterlabel';
+            reset_Longsor.onclick = function() {
+                var options = document.getElementById("sel_Longsor").options;
+                for (var i=0; i < options.length; i++) {
+                    options[i].selected = false;
+                }
+                filterFunc();
+            };
+            div_Longsor.appendChild(reset_Longsor);
+        </script>
+    </body>
+</html>
